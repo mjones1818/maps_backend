@@ -6,21 +6,23 @@ class Style < ApplicationRecord
   USER_ID = 'mjones1818'
   @@colors = {
     land: {
-      name: 'Battleship Grey',
-      code: '#16302B'
+      name: 'Saffron',
+      code: '#E3B505'
     },
     water: {
-      name: 'Opal',
-      code: '#9D79BC'
+      name: 'Yale Blue',
+      code: '#044B7F'
     },
     roads: {
-      name: 'Outer Space Crayola',
-      code: '#85B79D'
+      name: 'Tyrian Purple',
+      code: '#610345'
     }
   }
 
   def self.rcm(name='RCM')
-    style = Style.where(name: name).first
+    # puts 'enter id'
+    # id = gets.chomp
+    style = Style.first
     style.delete_style
     style.new_style
   end
@@ -74,8 +76,8 @@ class Style < ApplicationRecord
     json_response = JSON.parse(response.body)
   end
 
-  def prepare_for_update
-    style_object = self.modify_map(self.style_object)
+  def prepare_for_update(name=nil)
+    style_object = self.modify_map(self.style_object,name)
     keys_to_remove = ['created', 'modified', 'id', 'owner']
     style_object.delete_if {|k,v| keys_to_remove.include?(k)}
     style_object.to_json
@@ -98,7 +100,10 @@ class Style < ApplicationRecord
 
   end
 
-  def modify_map(style_object,colors=@@colors)
+  def modify_map(style_object,name=nil,colors=@@colors)
+    if name
+      style_object['name'] = "RCM - #{colors[:land][:name]}, #{colors[:water][:name]}, #{colors[:roads][:name]}"
+    end
     style_object['layers'].each do |layer|
       if layer['id'] == 'land'
         layer['paint']['background-color'] = colors[:land][:code]
@@ -116,7 +121,7 @@ class Style < ApplicationRecord
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = ""
-    request.body << self.prepare_for_update
+    request.body << self.prepare_for_update(true)
     req_options = {
       use_ssl: uri.scheme == "https",
     }
@@ -137,7 +142,7 @@ class Style < ApplicationRecord
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
-    
+    self.destroy
   end
 
   def self.add_style_to_db(style)
