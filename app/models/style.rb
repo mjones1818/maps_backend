@@ -42,31 +42,7 @@ class Style < ApplicationRecord
     response = Net::HTTP.get_response(uri)
     json_response = JSON.parse(response.body)
     json_response.each do |style|
-      # new_style = Style.find_or_create_by(style_id: style['id'])
-      # new_style[:name] = style['name']
-      # new_style[:style_id] = style['id']
-      # updated_object = new_style.get_style_data(style['id'])
-      # new_style[:style_object] = updated_object
-      # updated_object['layers'].each do |layer|
-      #   if layer['id'] == 'land'
-      #     land = new_style.features.build(name: 'land')
-      #     color = Color.new(name:'existing', code:layer['paint']['background-color'])
-      #     land.color = color
-      #     land.save
-      #   elsif layer['id'] == 'water'
-      #     water = new_style.features.build(name: 'water')
-      #     color = Color.new(name:'existing', code:layer['paint']['fill-color'])
-      #     water.color = color
-      #     water.save
-      #   else
-      #     roads = new_style.features.build(name: 'roads')
-      #     color = Color.new(name:'existing', code: layer['paint']['line-color'])
-      #     roads.color = color
-      #     roads.save
-      #   end
       Style.add_style_to_db(style)
-      # end
-      # new_style.save
     end
   end
 
