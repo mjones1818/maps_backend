@@ -20,8 +20,6 @@ class Style < ApplicationRecord
   }
 
   def self.rcm(name='RCM')
-    # puts 'enter id'
-    # id = gets.chomp
     style = Style.first
     style.delete_style
     style.new_style
@@ -80,6 +78,7 @@ class Style < ApplicationRecord
     if name
       style_object['name'] = "RCM - #{colors[:land][:name]}, #{colors[:water][:name]}, #{colors[:roads][:name]}"
     end
+    byebug
     style_object['layers'].each do |layer|
       if layer['id'] == 'land'
         layer['paint']['background-color'] = colors[:land][:code]
