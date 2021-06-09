@@ -15,10 +15,12 @@ class Color < ApplicationRecord
   # end
   
   def get_colors
-    browser = Watir::Browser.new :chrome, headless: true
+    # browser = Watir::Browser.new :chrome, headless: true
     # browser = Watir::Browser.new :chrome
-    Watir.default_timeout = 10
+    browser = Watir::Browser.new :safari, headless: true
+    Watir.default_timeout = 40
     browser.goto('http://coolors.co/generate')
+
     # byebug
     colors = browser.element(css: '#generator_colors').wait_until(&:present?)
     first_color = colors.children[0].children[1].children[0].inner_html
@@ -61,4 +63,25 @@ class Color < ApplicationRecord
     colors
   end
 
+  def assign_colors_from_db
+    
+    @color_object = {}
+    random_unused_palette = Palette.where(used: false).sample
+    random_unused_palette.palette_colors.each do |color|
+      @color_object[color.name] = color.code
+    end
+    colors = {}
+    features =['land','water','roads','unassigned1','unassigned2']
+    i = 0
+    @color_object.each do |k,v|
+      colors[features[i].to_sym] = {
+        name: k.to_s,
+        code: v
+      }
+      i +=1
+    end
+    random_unused_palette.toggle :used
+    random_unused_palette.save
+    colors
+  end
 end

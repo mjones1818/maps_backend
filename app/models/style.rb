@@ -64,7 +64,8 @@ class Style < ApplicationRecord
 
   def prepare_for_update(name=nil)
     new_colors = Color.new
-    @@colors = new_colors.assign_colors
+    # @@colors = new_colors.assign_colors
+    @@colors = new_colors.assign_colors_from_db
     style_object = self.modify_map(self.style_object,name)
     keys_to_remove = ['created', 'modified', 'id', 'owner']
     style_object.delete_if {|k,v| keys_to_remove.include?(k)}
