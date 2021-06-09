@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-10.times do 
-  new = Color.new
-  new.get_colors
-end
+
+new = Color.new
+new.get_colors(100)
+Palette.select {|pal| pal.palette_colors.count != 5}.each {|pal| pal.destroy}

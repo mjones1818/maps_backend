@@ -14,30 +14,35 @@ class Color < ApplicationRecord
   #   @color_object = self.get_colors
   # end
   
-  def get_colors
-    # browser = Watir::Browser.new :chrome, headless: true
-    # browser = Watir::Browser.new :chrome
-    browser = Watir::Browser.new :safari, headless: true
+  def get_colors(times=1)
+    
+      # browser = Watir::Browser.new :chrome, headless: true
+    browser = Watir::Browser.new :chrome
+    # browser = Watir::Browser.new :safari, headless: true
     Watir.default_timeout = 40
     browser.goto('http://coolors.co/generate')
-
-    # byebug
-    colors = browser.element(css: '#generator_colors').wait_until(&:present?)
-    first_color = colors.children[0].children[1].children[0].inner_html
-    color_object = {}
-    colors.children.each do |color|
-      color_object[color.children[1].children[1].inner_text] = color.children[1].children[0].inner_text
+    # browser.cookies.save '.cookies'
+    browser.cookies.load '.cookies'
+    times.times do
+      browser.goto('http://coolors.co/generate')
+      colors = browser.element(css: '#generator_colors').wait_until(&:present?)
+      first_color = colors.children[0].children[1].children[0].inner_html
+      color_object = {}
+      colors.children.each do |color|
+        color_object[color.children[1].children[1].inner_text] = color.children[1].children[0].inner_text
+      end
+      # browser.close
+      new_palette = Palette.new
+      color_object.each do |k,v|
+        color = PaletteColor.create(
+          name: k,
+          code: "##{v}"
+        )
+        new_palette.palette_colors << color
+      end
+      new_palette.save
     end
     browser.close
-    new_palette = Palette.new
-    color_object.each do |k,v|
-      color = PaletteColor.create(
-        name: k,
-        code: "##{v}"
-      )
-      new_palette.palette_colors << color
-    end
-    new_palette.save
     color_object
   end
 

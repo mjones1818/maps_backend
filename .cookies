@@ -1,0 +1,85 @@
+---
+- :name: whats_new_1
+  :value: 'true'
+  :path: "/"
+  :domain: coolors.co
+  :expires: 2022-06-09 16:56:54.000000106 +00:00
+  :secure: false
+- :name: _ga_T3MQ5E34JM
+  :value: GS1.1.1623257487.1.1.1623257804.0
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires: 2023-06-09 16:56:43.999999969 +00:00
+  :secure: false
+- :name: _gid
+  :value: GA1.2.1989887995.1623257488
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires: 2021-06-10 16:56:42.000000130 +00:00
+  :secure: false
+- :name: modal_fabrizio
+  :value: 'true'
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires:
+  :secure: true
+- :name: vis
+  :value: '2'
+  :path: "/"
+  :domain: coolors.co
+  :expires:
+  :secure: false
+- :name: generator_settings
+  :value: "{%22color_info%22:%22NAME%22%2C%22isolation_mode%22:false%2C%22zen_mode%22:false}"
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires: 2022-06-09 16:51:39.999999942 +00:00
+  :secure: true
+- :name: __auc
+  :value: 0a21dc91179f1af98c064cdf017
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires: 2022-06-10 16:56:42.000000130 +00:00
+  :secure: false
+- :name: __Secure-PHPSESSID
+  :value: 2cc17c3e79f736808f1d7735639b9fdb
+  :path: "/"
+  :domain: coolors.co
+  :expires:
+  :secure: true
+- :name: generator_settings
+  :value: "{%22color_info%22:%22NAME%22%2C%22isolation_mode%22:false%2C%22zen_mode%22:false}"
+  :path: "/"
+  :domain: coolors.co
+  :expires: 2022-06-09 16:56:43.999999969 +00:00
+  :secure: false
+- :name: vis
+  :value: '1'
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires:
+  :secure: true
+- :name: __asc
+  :value: 0a21dc91179f1af98c064cdf017
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires: 2021-06-09 17:26:42.000000025 +00:00
+  :secure: false
+- :name: modal_fabrizio
+  :value: 'true'
+  :path: "/"
+  :domain: coolors.co
+  :expires:
+  :secure: false
+- :name: _ga
+  :value: GA1.2.1277689054.1623257488
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires: 2023-06-09 16:56:42.000000130 +00:00
+  :secure: false
+- :name: __Secure-PHPSESSID
+  :value: e618370cdbf41d6332f0d8f9a914ce1c
+  :path: "/"
+  :domain: ".coolors.co"
+  :expires:
+  :secure: true
