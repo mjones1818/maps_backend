@@ -1,6 +1,16 @@
 class StylesController < ApplicationController
   def index
-    stlyes = Style.all
-    render json: stlyes
+    styles = Style.all
+    render json: styles
+  end
+
+  def get_map
+    style = Style.last.get_map
+    render json: style
+  end
+
+  def rcm
+    byebug
+    Style.rcm
   end
 end

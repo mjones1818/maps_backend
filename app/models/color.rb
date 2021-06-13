@@ -14,10 +14,10 @@ class Color < ApplicationRecord
   #   @color_object = self.get_colors
   # end
   
-  def get_colors(times=1)
+  def self.get_colors(times=1)
     
-      # browser = Watir::Browser.new :chrome, headless: true
-    browser = Watir::Browser.new :chrome
+    browser = Watir::Browser.new :chrome, headless: true
+    # browser = Watir::Browser.new :chrome
     # browser = Watir::Browser.new :safari, headless: true
     Watir.default_timeout = 40
     browser.goto('http://coolors.co/generate')
@@ -43,7 +43,7 @@ class Color < ApplicationRecord
       new_palette.save
     end
     browser.close
-    color_object
+    # color_object
   end
 
   def assign_colors

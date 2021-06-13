@@ -33,6 +33,8 @@ class Style < ApplicationRecord
     # style.delete_style
     style.new_style
     style.delete_style
+    # byebug
+    Color.get_colors
     puts @@colors
   end
 
@@ -172,5 +174,14 @@ class Style < ApplicationRecord
     unassigned2.save
 
     new_style.save
+  end
+
+  def get_map
+    lon = self.style_object['center'].first
+    lat = self.style_object['center'][1]
+    zoom = self.style_object['zoom']
+    uri = URI.parse("#{BASE_URL+USER_ID}/#{style_id}/static/#{lon},#{lat},#{zoom},0,0/1000X1000?access_token=#{ENV['API_KEY']}")
+    # response = Net::HTTP.get_response(uri)
+    uri
   end
 end
