@@ -31,11 +31,17 @@ class Style < ApplicationRecord
     # Style.get_styles
     style = Style.last
     # style.delete_style
-    style.new_style
+    result = style.new_style
     style.delete_style
-    # byebug
-    Color.get_colors
-    puts @@colors
+    # Color.get_colors
+    result
+  end
+
+  def self.save_style(style_id=Style.last.style_id)
+    style = Style.find_by(style_id: style_id)
+    
+    result = style.new_style(false)
+    result
   end
 
   def self.clear
@@ -95,6 +101,9 @@ class Style < ApplicationRecord
     # byebug
     if name
       style_object['name'] = "RCM - #{colors[:land][:name]}, #{colors[:water][:name]}, #{colors[:roads][:name]}"
+    else
+      style_object['name'] = "#{style_object['name']} copy"
+      return style_object
     end
     
     style_object['layers'].each do |layer|
@@ -109,12 +118,12 @@ class Style < ApplicationRecord
     style_object
   end
 
-  def new_style
+  def new_style(original=true)
     uri = URI.parse("#{BASE_URL+USER_ID}/?access_token=#{ENV['API_KEY']}")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = ""
-    request.body << self.prepare_for_update(true)
+    request.body << self.prepare_for_update(original)
     req_options = {
       use_ssl: uri.scheme == "https",
     }
@@ -174,6 +183,7 @@ class Style < ApplicationRecord
     unassigned2.save
 
     new_style.save
+    new_style
   end
 
   def get_map

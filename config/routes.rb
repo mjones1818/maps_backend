@@ -3,4 +3,6 @@ Rails.application.routes.draw do
   resources :styles
   get 'get_map', to: 'styles#get_map'
   get 'rcm', to: 'styles#rcm'
+  get 'get_colors', to: 'colors#get_colors'
+  get 'save_style/:style_id', to: 'styles#save_style'
 end
