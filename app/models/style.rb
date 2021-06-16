@@ -145,6 +145,7 @@ class Style < ApplicationRecord
       http.request(request)
     end
     self.destroy
+  
   end
 
   def self.add_style_to_db(style)
@@ -186,11 +187,11 @@ class Style < ApplicationRecord
     new_style
   end
 
-  def get_map
+  def get_map(dimensions='1000X1000')
     lon = self.style_object['center'].first
     lat = self.style_object['center'][1]
     zoom = self.style_object['zoom']
-    uri = URI.parse("#{BASE_URL+USER_ID}/#{style_id}/static/#{lon},#{lat},#{zoom},0,0/1000X1000?access_token=#{ENV['API_KEY']}")
+    uri = URI.parse("#{BASE_URL+USER_ID}/#{style_id}/static/#{lon},#{lat},#{zoom},0,0/#{dimensions}?access_token=#{ENV['API_KEY']}")
     # response = Net::HTTP.get_response(uri)
     uri
   end
