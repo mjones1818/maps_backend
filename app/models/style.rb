@@ -58,7 +58,7 @@ class Style < ApplicationRecord
     uri = URI.parse("#{BASE_URL+USER_ID}/?access_token=#{ENV['API_KEY']}")
     response = Net::HTTP.get_response(uri)
     json_response = JSON.parse(response.body)
-
+    
     json_response.each do |style|
       Style.add_style_to_db(style)
     end
@@ -149,40 +149,44 @@ class Style < ApplicationRecord
   end
 
   def self.add_style_to_db(style)
+    does_style_exist = false
+    !!Style.find_by(style_id: style['id']) ? does_style_exist = true : does_style_exist = false
     new_style = Style.find_or_create_by(style_id: style['id'])
     new_style[:name] = style['name']
     new_style[:style_id] = style['id']
     updated_object = new_style.get_style_data(style['id'])
     new_style[:style_object] = updated_object
 
-    updated_object['layers'].each do |layer|
-      if layer['id'] == 'land'
-        land = new_style.features.build(name: 'land')
-        color = Color.new(name:@@colors[:land][:name], code:layer['paint']['background-color'])
-        land.color = color
-        land.save
-      elsif layer['id'] == 'water'
-        water = new_style.features.build(name: 'water')
-        color = Color.new(name:@@colors[:water][:name], code:layer['paint']['fill-color'])
-        water.color = color
-        water.save
-      else
-        roads = new_style.features.build(name: 'roads')
-        color = Color.new(name:@@colors[:roads][:name], code: layer['paint']['line-color'])
-        roads.color = color
-        roads.save
-      end
-    end
-    unassigned1 = new_style.features.build(name: 'unassigned1')
-    color = Color.new(name:@@colors[:unassigned1][:name], code:@@colors[:unassigned1][:code])
-    unassigned1.color = color
-    unassigned1.save
-    
-    unassigned2 = new_style.features.build(name: 'unassigned2')
-    color = Color.new(name:@@colors[:unassigned2][:name], code:@@colors[:unassigned2][:code])
-    unassigned2.color = color
-    unassigned2.save
 
+    if !does_style_exist
+      updated_object['layers'].each do |layer|
+        if layer['id'] == 'land'
+          land = new_style.features.build(name: 'land')
+          color = Color.new(name:@@colors[:land][:name], code:layer['paint']['background-color'])
+          land.color = color
+          land.save
+        elsif layer['id'] == 'water'
+          water = new_style.features.build(name: 'water')
+          color = Color.new(name:@@colors[:water][:name], code:layer['paint']['fill-color'])
+          water.color = color
+          water.save
+        else
+          roads = new_style.features.build(name: 'roads')
+          color = Color.new(name:@@colors[:roads][:name], code: layer['paint']['line-color'])
+          roads.color = color
+          roads.save
+        end
+      end
+      unassigned1 = new_style.features.build(name: 'unassigned1')
+      color = Color.new(name:@@colors[:unassigned1][:name], code:@@colors[:unassigned1][:code])
+      unassigned1.color = color
+      unassigned1.save
+
+      unassigned2 = new_style.features.build(name: 'unassigned2')
+      color = Color.new(name:@@colors[:unassigned2][:name], code:@@colors[:unassigned2][:code])
+      unassigned2.color = color
+      unassigned2.save
+    end
     new_style.save
     new_style
   end
