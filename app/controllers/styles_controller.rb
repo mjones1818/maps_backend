@@ -3,6 +3,7 @@ class StylesController < ApplicationController
     styles = Style.order('id DESC').all.each do |style|
       style.style_object['map_url']= style.get_map
     end
+
     render json: styles
   end
 

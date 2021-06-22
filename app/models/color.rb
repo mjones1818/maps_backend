@@ -89,4 +89,23 @@ class Color < ApplicationRecord
     random_unused_palette.save
     colors
   end
+
+  def self.get_labels
+    
+    browser = Watir::Browser.new :chrome
+    browser.goto('http://coolors.co/610345')
+    browser.cookies.load '.cookies'
+
+    Color.where(name: 'Existing').each do |color|
+      7.times do
+        browser.text_field(id: 'color-picker-page_input').send_keys :backspace
+      end
+      browser.text_field(id: 'color-picker-page_input').send_keys "#{color.code.slice(1..6)}"
+      browser.div(id: 'color-picker-page_preview_name').wait_until(&:present?)
+      color_name = browser.div(id: 'color-picker-page_preview_name').siblings[1].inner_html[2..-1]
+      color.name = color_name
+      color.save
+    end
+    browser.close
+  end
 end
